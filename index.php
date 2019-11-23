@@ -1,59 +1,111 @@
+<?php
+  require_once("conecta.php");
+  require_once("logica-usuario.php");
+
+?>
+
 <!DOCTYPE html>
-<!--Code by Web Dev Trick ( https://webdevtrick.com )-->
-<!--For More Source Code visit  https://webdevtrick.com -->
-<html>
-    
+<html lang="pt-br">
+
 <head>
-	<title>Home Finance | Organize seus boletos</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
-	<link rel="stylesheet" href="css/index.css">
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Home Finance | Organize seus boletos</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
 </head>
-<body>
-	<div class="container h-100">
-		<div class="d-flex justify-content-center h-100">
-			<div class="user_card">
-				<div class="d-flex justify-content-center">
-					<div class="brand_logo_container">
-						<img src="img/logo-quadrado.png" class="brand_logo" alt="Logo">
-					</div>
-				</div>
-				<div class="d-flex justify-content-center form_container">
-					<form>
-						<div class="input-group mb-3">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
-							</div>
-								<input type="text" name="" class="form-control input_user" value="" placeholder="E-mail">
-						</div>
-						<div class="input-group mb-2">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-key"></i></span>
-							</div>
-							<input type="password" name="" class="form-control input_pass" value="" placeholder="Senha">
-						</div>
-						<div class="form-group">
-							<div class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input" id="customControlInline">
-								<label class="custom-control-label" for="customControlInline">Lembrar senha</label>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="d-flex justify-content-center mt-3 login_container">
-					<button type="button" name="button" class="btn login_btn">Login</button>
-				</div>
-				<div class="mt-4">
-					<div class="d-flex justify-content-center links">
-						Não tem cadastro? <a href="cadastrar.php" class="ml-2">Cadastrar-se</a>
-					</div>
-					<div class="d-flex justify-content-center links">
-						<a href="#">Esqueceu sua senha?</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+
+<body class="bg-gradient-primary">
+<?php
+  if(usuarioEstaLogado()) { 
+    header("Location: dashboard.php");
+  }
+  else {    
+?>
+  <div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+      <div class="col-xl-10 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+              <div class="col-lg-6">
+                <div class="p-5">
+                  <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4"></h1>
+                  </div>
+                  <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-2">Login</h1>              
+                  </div>
+                  <form action="login.php" class="user" method="post">
+                    <div class="form-group">
+                      <input type="email" class="form-control form-control-user" name="email" aria-describedby="emailHelp" placeholder="E-mail cadastrado">
+                    </div>
+                    <div class="form-group">
+                      <input type="password" class="form-control form-control-user" name="senha" placeholder="Senha">
+                    </div>
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox small">
+                        <input type="checkbox" class="custom-control-input" id="customCheck">
+                        <label class="custom-control-label" for="customCheck">Lembrar</label>
+                      </div>
+                    </div>
+                    <button class="btn btn-primary btn-user btn-block">Login</button>
+                    <hr>
+                    <a href="index.html" class="btn btn-google btn-user btn-block">
+                      <i class="fab fa-google fa-fw"></i> Login com o Google
+                    </a>
+                    <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                      <i class="fab fa-facebook-f fa-fw"></i> Login com o Facebook
+                    </a>
+                  </form>
+                  <hr>
+                  <div class="text-center">
+                    <a class="small" href="forgot-password.php">Esqueceu a senha?</a>
+                  </div>
+                  <div class="text-center">
+                    <a class="small" href="register.php">Primeiro acesso? Registre-se!</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+<?php
+  }   
+?>
 </body>
+
 </html>
