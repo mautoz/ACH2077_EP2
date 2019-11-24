@@ -1,3 +1,15 @@
+<?php
+  require_once("logica-usuario.php");
+
+  if(isset($_SESSION['ultima_acao'])){    
+  $tempoInativo = time() - $_SESSION['ultima_acao'];    
+
+  if($tempoInativo >= $timeout){
+      logout();
+    }    
+  }
+  $_SESSION['ultima_acao'] = time();
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -21,7 +33,9 @@
 </head>
 
 <body class="bg-gradient-primary">
-
+<?php
+  if(!usuarioEstaLogado()) {   
+?>
   <div class="container">
 
     <div class="card o-hidden border-0 shadow-lg my-5">
@@ -34,29 +48,27 @@
               <div class="text-center">
                 <h1 class="h4 text-gray-900 mb-4">Crie já sua conta!</h1>
               </div>
-              <form class="user">
+              <form class="user" action="register-funcoes.php" method="post">
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Primeiro Nome">
+                    <input type="text" class="form-control form-control-user" name="nome" id="exampleFirstName" placeholder="Primeiro Nome" required>
                   </div>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Último nome">
+                    <input type="text" class="form-control form-control-user" name="ultimonome" id="exampleLastName" placeholder="Último nome" required>
                   </div>
                 </div>
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="E-mail">
+                  <input type="email" class="form-control form-control-user" name="email" id="exampleInputEmail" placeholder="E-mail" required>
                 </div>
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Senha">
+                    <input type="password" class="form-control form-control-user" name="senha" id="exampleInputPassword" placeholder="Senha" required>
                   </div>
                   <div class="col-sm-6">
-                    <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Repita sua senha">
+                    <input type="password" class="form-control form-control-user" name="senha2" id="exampleRepeatPassword" placeholder="Repita sua senha" required>
                   </div>
                 </div>
-                <a href="login.html" class="btn btn-primary btn-user btn-block">
-                  Registre-se
-                </a>
+                <button class="btn btn-primary btn-user btn-block">Registre-se</button>
                 <hr>
                 <a href="index.html" class="btn btn-google btn-user btn-block">
                   <i class="fab fa-google fa-fw"></i> Registre-se pelo Google
@@ -89,7 +101,12 @@
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
-
+<?php
+  }   
+  else {
+    header("Location: dashboard.php");
+  }
+?>
 </body>
 
 </html>

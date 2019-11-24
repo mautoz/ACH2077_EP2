@@ -1,3 +1,15 @@
+<?php
+  require_once("logica-usuario.php");
+
+  if(isset($_SESSION['ultima_acao'])){    
+  $tempoInativo = time() - $_SESSION['ultima_acao'];    
+
+  if($tempoInativo >= $timeout){
+      logout();
+    }    
+  }
+  $_SESSION['ultima_acao'] = time();
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -21,7 +33,9 @@
 </head>
 
 <body class="bg-gradient-primary">
-
+<?php
+  if(!usuarioEstaLogado()) {   
+?>
   <div class="container">
 
     <!-- Outer Row -->
@@ -53,7 +67,7 @@
                     <a class="small" href="register.php">Criar uma conta!</a>
                   </div>
                   <div class="text-center">
-                    <a class="small" href="index.php">Esqueceu a senha? Clique aqui!</a>
+                    <a class="small" href="index.php">Lembrou a senha? Faça o login!</a>
                   </div>
                 </div>
               </div>
@@ -76,7 +90,12 @@
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
-
+<?php
+  }   
+  else {
+    header("Location: dashboard.php");
+  }
+?>
 </body>
 
 </html>

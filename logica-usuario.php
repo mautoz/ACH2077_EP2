@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-$timeout = 60;
+$timeout = 1800;
 
 function usuarioEstaLogado() {
 	return isset($_SESSION["usuario_logado"]);
@@ -19,8 +19,9 @@ function usuarioLogado() {
 	return $_SESSION["usuario_logado"];
 }
 
-function logaUsuario($nome) {
+function logaUsuario($nome, $id) {
 	$_SESSION["usuario_logado"] = $nome;
+	$_SESSION["usuario_id"] = $id;
 }
 
 function logout () {

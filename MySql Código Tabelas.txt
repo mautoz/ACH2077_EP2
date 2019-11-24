@@ -2,13 +2,21 @@
 CREATE TABLE users (
 	id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	nome VARCHAR(50) NOT NULL,
-    ultimonome VARCHAR(50) NOT NULL,
+    	ultimonome VARCHAR(50) NOT NULL,
 	email VARCHAR(50) NOT NULL,
 	senha VARCHAR(50) NOT NULL
 )
 
-INSERT INTO `viveremharmoni01`.`users` (`nome`, `ultimonome`, `email`, `senha`) VALUES ('Mauricio', 'Ozaki', 'mauricioozaki@gmail.com', '1234');
+CREATE TABLE boletos (
+	id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	id_user INT(10) UNSIGNED NOT NULL REFERENCES users(id),
+	nomeconta VARCHAR(50) NOT NULL,
+	categoria VARCHAR(10),
+	valor DECIMAL(10,2),
+	vencimento DATE
+)
 
-INSERT INTO `viveremharmoni01`.`users` (`nome`, `ultimonome`, `email`, `senha`) VALUES ('Caio', 'Silvestre', 'caio.silvestre@usp.br', '1234');
 
-INSERT INTO `viveremharmoni01`.`users` (`nome`, `ultimonome`, `email`, `senha`) VALUES ('Mario', 'Augusto', 'takezo@usp.br', '1234');
+INSERT INTO users (nome, ultimonome, email, senha) VALUES ('Mauricio', 'Ozaki', 'mauricioozaki@gmail.com', '1234');
+INSERT INTO users (nome, ultimonome, email, senha) VALUES ('Caio', 'Silvestre', 'caio.silvestre@usp.br', '1234');
+INSERT INTO users (nome, ultimonome, email, senha) VALUES ('Mario', 'Augusto', 'takezo@usp.br', '1234');
