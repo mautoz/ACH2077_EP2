@@ -13,7 +13,18 @@ CREATE TABLE boletos (
 	nomeconta VARCHAR(50) NOT NULL,
 	categoria VARCHAR(10),
 	valor DECIMAL(10,2),
+	status VARCHAR(10),
 	vencimento DATE
+)
+
+CREATE TABLE ganhos (
+	id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	id_user INT(10) UNSIGNED NOT NULL REFERENCES users(id),
+	fonte VARCHAR(50) NOT NULL,
+	categoria VARCHAR(10),
+	valor DECIMAL(10,2),
+	status VARCHAR(10),
+	data DATE
 )
 
 

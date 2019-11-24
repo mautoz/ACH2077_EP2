@@ -218,7 +218,6 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Inserir Nova Conta</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
           </div>
 <?php
   if (array_key_exists("cadastro", $_GET) && $_GET["cadastro"] == "true") {
@@ -250,13 +249,13 @@
                       <input type="text" class="form-control" name="conta" placeholder="Descrição da conta: água, luz..." required>
                     </div>
                     <div class="form-row">                        
-                      <div class="form-group col-md-4">
+                      <div class="form-group col-md-3">
                         <input type="date" class="form-control" name="vencimento" required>
                       </div>
-                      <div class="form-group col-md-4">
+                      <div class="form-group col-md-3">
                         <input type="text" class="form-control" name="valor" placeholder="Digite o valor do boleto" required>
                       </div>
-                      <div class="form-group col-md-4">
+                      <div class="form-group col-md-3">
                         <select name="tipodeconta" class="form-control" required>
                           <option selected>Categoria</option>
                           <option value="consumo">Consumo</option>
@@ -264,12 +263,19 @@
                           <option value="alimentacao">Alimentação</option>
                           <option value="lazer">Lazer</option>
                           <option value="transporte">Transporte</option>
-                          <option value="inposto">Imposto</option>
+                          <option value="imposto">Imposto</option>
                           <option value="outros">Outros</option>
                         </select>
                       </div>
+                      <div class="form-group col-md-3">
+                        <select name="status" class="form-control" required>
+                          <option selected>Status de Pagamento</option>
+                          <option value="pago">Pago</option>
+                          <option value="pendente">Pendente</option>
+                        </select>
+                      </div>
                     </div>
-                    <button class="btn btn-primary btn-user btn-block">Cadastrar</button>
+                    <button class="btn btn-success btn-user">Cadastrar</button>
                   </form>                  
                 </div>
                 <!-- Formulário de inserção -->

@@ -65,7 +65,7 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        Ganos e Contas
+        Ganhos e Contas
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->

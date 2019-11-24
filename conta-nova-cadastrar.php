@@ -7,8 +7,9 @@
 	$vencimento = $_POST['vencimento'];
 	$valor = $_POST['valor'];
 	$tipodeconta = $_POST['tipodeconta'];
+	$status = $_POST['status'];
 
-	if(cadastrarConta($conexao, $conta, $vencimento, $valor, $tipodeconta, $_SESSION["usuario_id"])) {
+	if(cadastrarConta($conexao, $conta, $vencimento, $valor, $tipodeconta, $status, $_SESSION["usuario_id"])) {
 		header("Location: conta-nova.php?cadastro=true");
 	} else {
 		header("Location: conta-nova.php?cadastro=false");		
