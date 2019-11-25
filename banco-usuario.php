@@ -71,3 +71,14 @@ function boletosPagos ($conexao, $iduser) {
 	$resultado = mysqli_fetch_assoc(mysqli_query($conexao, $query));
 	return $resultado['quantidade'];
 }
+
+function removerConta ($conexao, $id) {
+	$query = "delete from boletos where id = {$id}";
+	return mysqli_query($conexao, $query);
+}
+
+function removerGanho ($conexao, $id) {
+	$query = "delete from ganhos where id = {$id}";
+	return mysqli_query($conexao, $query);
+}
+

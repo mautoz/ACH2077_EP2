@@ -305,7 +305,19 @@
                 </div>
 
                 <!-- Início da Tabela de Contas -->
-                <div class="card-body">                  
+                <div class="card-body">
+<?php
+  if (array_key_exists("removido", $_GET) && $_GET["removido"] == "true") {
+?>
+    <p class="alert alert-success">Conta removida com sucesso!</p>
+<?php
+  }
+  else if (array_key_exists("removido", $_GET) && $_GET["removido"] == "false"){
+?>
+    <p class="alert alert-danger">Ocorreu algum erro na remoção!</p>  
+<?php
+  }
+?>                 
                   <table class="table table-striped table-bordered">
                     <thead class="thead-success">
                       <tr>
@@ -332,15 +344,15 @@
                       <td><?= $conta['status']; ?></td>
                       <td>
                         <form action="#" method="POST">
-                          <input type="hidden" name="id_tabela" value="<?=$conta['id']; ?>">
+                          <input type="hidden" name="id" value="<?=$conta['id']; ?>">
                           <button class="btn btn-warning text-white">
                             Editar
                           </button>
                         </form>
                       </td>
                       <td>
-                        <form action="remover-conta.php" method="POST">
-                          <input type="hidden" name="id_tabela" value="<?=$conta['id']; ?>">
+                        <form action="conta-remover.php" method="POST">
+                          <input type="hidden" name="id" value="<?=$conta['id']; ?>">
                           <button class="btn btn-danger" onclick="return confirm('Remover é uma ação irreversível! Continuar a ação mesmo assim?');">
                             Remover
                           </button>
@@ -370,7 +382,19 @@
                 </div>
 
                 <!-- Início da Tabela de Contas -->
-                <div class="card-body">                  
+                <div class="card-body">
+<?php
+  if (array_key_exists("gremovido", $_GET) && $_GET["gremovido"] == "true") {
+?>
+    <p class="alert alert-success">Ganho removido com sucesso!</p>
+<?php
+  }
+  else if (array_key_exists("gremovido", $_GET) && $_GET["gremovido"] == "false"){
+?>
+    <p class="alert alert-danger">Ocorreu algum erro na remoção!</p>  
+<?php
+  }
+?>                   
                   <table class="table table-striped table-bordered">
                     <thead class="thead-success">
                       <tr>
@@ -395,15 +419,15 @@
                       <td><?= $ganho['data']; ?></td>
                       <td>
                         <form action="#" method="POST">
-                          <input type="hidden" name="id_tabela" value="<?=$ganho['id']; ?>">
+                          <input type="hidden" name="id" value="<?=$ganho['id']; ?>">
                           <button class="btn btn-warning text-white">
                             Editar
                           </button>
                         </form>
                       </td>
                       <td>
-                        <form action="remover-conta.php" method="POST">
-                          <input type="hidden" name="id_tabela" value="<?=$ganho['id']; ?>">
+                        <form action="ganho-remover.php" method="POST">
+                          <input type="hidden" name="id" value="<?=$ganho['id']; ?>">
                           <button class="btn btn-danger" onclick="return confirm('Remover é uma ação irreversível! Continuar a ação mesmo assim?');">
                             Remover
                           </button>
