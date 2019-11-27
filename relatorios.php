@@ -1,5 +1,6 @@
 <?php
   require_once("logica-usuario.php");
+  require_once("banco-usuario.php");
 
   if(isset($_SESSION['ultima_acao'])){    
   $tempoInativo = time() - $_SESSION['ultima_acao'];    
@@ -222,38 +223,157 @@
 
           <!-- Content Row -->
 
+          <!--Início da 'Row' das contas --> 
           <div class="row">
-
-            <!-- Area Chart -->
             <div class="col-xl-12 col-lg-12">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
+                  <h6 class="m-0 font-weight-bold text-primary">Todas as contas registradas</h6>
                 </div>
-                <!-- Card Body -->
+
+                <!-- Início da Tabela de Contas -->
                 <div class="card-body">
-                  <div class="chart-area">
-                    <canvas id="myAreaChart"></canvas>
-                  </div>
+<?php
+  if (array_key_exists("removido", $_GET) && $_GET["removido"] == "true") {
+?>
+    <p class="alert alert-success">Conta removida com sucesso!</p>
+<?php
+  }
+  else if (array_key_exists("removido", $_GET) && $_GET["removido"] == "false"){
+?>
+    <p class="alert alert-danger">Ocorreu algum erro na remoção!</p>  
+<?php
+  }
+?>                 
+                  <table class="table table-striped table-bordered">
+                    <thead class="thead-success">
+                      <tr>
+                        <th scope="col">Conta</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Vencimento</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>                  
+
+                    <tbody>
+                    <?php
+                      $contas = buscarContas ($conexao, $_SESSION["usuario_id"]);
+                      foreach ($contas as $conta) {
+                    ?>
+                    <tr>
+                      <td><?= $conta['nomeconta']; ?></td>
+                      <td class="categoria"><?= $conta['categoria']; ?></td>
+                      <td class="valor"><?= $conta['valor']; ?></td>
+                      <td><?= $conta['vencimento']; ?></td>
+                      <td><?= $conta['status']; ?></td>
+                      <td>
+                        <form action="conta-alterar-formulario.php" method="POST">
+                          <input type="hidden" name="id" value="<?=$conta['id']; ?>">
+                          <button class="btn btn-warning text-white">
+                            Editar
+                          </button>
+                        </form>
+                      </td>
+                      <td>
+                        <form action="conta-remover.php" method="POST">
+                          <input type="hidden" name="id" value="<?=$conta['id']; ?>">
+                          <button class="btn btn-danger" onclick="return confirm('Remover é uma ação irreversível! Continuar a ação mesmo assim?');">
+                            Remover
+                          </button>
+                        </form>
+                      </td>
+                    </tr>
+                    <?php
+                      }
+                    ?>
+                  </tbody>
+                  
+                <!-- Fim da Tabela de Contas -->
+                </table>
                 </div>
               </div>
             </div>
           </div>
+          <!--Fim da 'Row' das contas --> 
 
-        </div>
+          <!--Início da 'Row' dos Ganhos --> 
+          <div class="row">
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Todos os ganhos registrados</h6>
+                </div>
+
+                <!-- Início da Tabela de Contas -->
+                <div class="card-body">
+<?php
+  if (array_key_exists("gremovido", $_GET) && $_GET["gremovido"] == "true") {
+?>
+    <p class="alert alert-success">Ganho removido com sucesso!</p>
+<?php
+  }
+  else if (array_key_exists("gremovido", $_GET) && $_GET["gremovido"] == "false"){
+?>
+    <p class="alert alert-danger">Ocorreu algum erro na remoção!</p>  
+<?php
+  }
+?>                   
+                  <table class="table table-striped table-bordered">
+                    <thead class="thead-success">
+                      <tr>
+                        <th scope="col">Ganho</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Data de Recebimento</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>                  
+
+                    <tbody>
+                    <?php
+                      $ganhos = buscarGanhos ($conexao, $_SESSION["usuario_id"]);
+                      foreach ($ganhos as $ganho) {
+                    ?>
+                    <tr>
+                      <td><?= $ganho['fonte']; ?></td>
+                      <td class="categoria2"><?= $ganho['categoria']; ?></td>
+                      <td class="valor2"><?= $ganho['valor']; ?></td>
+                      <td><?= $ganho['data']; ?></td>
+                      <td>
+                        <form action="ganho-alterar-formulario.php" method="POST">
+                          <input type="hidden" name="id" value="<?=$ganho['id']; ?>">
+                          <button class="btn btn-warning text-white">
+                            Editar
+                          </button>
+                        </form>
+                      </td>
+                      <td>
+                        <form action="ganho-remover.php" method="POST">
+                          <input type="hidden" name="id" value="<?=$ganho['id']; ?>">
+                          <button class="btn btn-danger" onclick="return confirm('Remover é uma ação irreversível! Continuar a ação mesmo assim?');">
+                            Remover
+                          </button>
+                        </form>
+                      </td>
+                    </tr>
+                    <?php
+                      }
+                    ?>
+                  </tbody>
+                  
+                <!-- Fim da Tabela de Contas -->
+                </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Fim da 'Row' dos Ganhos -->
         <!-- /.container-fluid -->
 
 

@@ -28,9 +28,45 @@ function cadastrarGanho ($conexao, $conta, $datarecebimento, $valor, $tipodeganh
 	return $resultadoDoCadastro;
 }	
 
+function alterarConta ($conexao, $id, $conta, $vencimento, $valor, $tipodeconta, $status) {
+    $query = "update boletos set nomeconta = '{$conta}', categoria = '{$tipodeconta}', valor = '{$valor}', vencimento = '{$vencimento}', status = '{$status}' where id = '{$id}'";
+    return mysqli_query($conexao, $query);
+}
+
+function alterarGanho ($conexao, $id, $conta, $datarecebimento, $valor, $tipodeganho) {
+    $query = "update ganhos set fonte = '{$conta}', categoria = '{$tipodeganho}', valor = '{$valor}', data = '{$datarecebimento}' where id = '{$id}'";
+    return mysqli_query($conexao, $query);
+}
+
+function buscarConta ($conexao, $id) {
+	$contas = array();
+	$resultado = mysqli_query($conexao, "select * from boletos where id = '{$id}'");
+	return mysqli_fetch_assoc($resultado);
+}
+
 function buscarContas ($conexao, $iduser) {
 	$contas = array();
 	$resultado = mysqli_query($conexao, "select * from boletos where id_user = '{$iduser}'");
+
+	while ($conta = mysqli_fetch_assoc($resultado)) {
+		array_push($contas, $conta);
+	}
+	return $contas;
+}
+
+function buscarContasPendentes ($conexao, $iduser) {
+	$contas = array();
+	$resultado = mysqli_query($conexao, "select * from boletos where id_user = '{$iduser}' AND status = 'pendente'");
+
+	while ($conta = mysqli_fetch_assoc($resultado)) {
+		array_push($contas, $conta);
+	}
+	return $contas;
+}
+
+function buscarContasRecentes ($conexao, $iduser) {
+	$contas = array();
+	$resultado = mysqli_query($conexao, "select * from boletos where id_user = '{$iduser}' and vencimento between (CURDATE() - INTERVAL 1 MONTH ) and CURDATE()");
 
 	while ($conta = mysqli_fetch_assoc($resultado)) {
 		array_push($contas, $conta);
@@ -46,10 +82,25 @@ function buscarGanhos ($conexao, $iduser) {
 		array_push($ganhos, $ganho);
 	}
 	return $ganhos;
+}
+
+function buscarGanho ($conexao, $id) {
+	$resultado = mysqli_query($conexao, "select * from ganhos where id = '{$id}'");
+	return mysqli_fetch_assoc($resultado);
 }	
 
+function buscarGanhosRecentes ($conexao, $iduser) {
+	$contas = array();
+	$resultado = mysqli_query($conexao, "select * from ganhos where id_user = '{$iduser}' and data between (CURDATE() - INTERVAL 1 MONTH ) and CURDATE()");
+
+	while ($conta = mysqli_fetch_assoc($resultado)) {
+		array_push($contas, $conta);
+	}
+	return $contas;
+}
+
 function somaContas ($conexao, $iduser) {
-	$query = "select sum(valor) as soma from boletos where id_user = '{$iduser}'";
+	$query = "select sum(valor) as soma from boletos where id_user = '{$iduser}' AND status = 'pendente'";
 	$resultado = mysqli_fetch_assoc(mysqli_query($conexao, $query));
 	return $resultado['soma'];
 }
@@ -81,4 +132,5 @@ function removerGanho ($conexao, $id) {
 	$query = "delete from ganhos where id = {$id}";
 	return mysqli_query($conexao, $query);
 }
+
 

@@ -15,7 +15,7 @@
 <html lang="pt-br">
 
 <head>
-  <script src="https://56015-45646037-gh.circle-artifacts.com/0/dist/plotly.min.js"></script>
+
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -217,196 +217,70 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Gráficos</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+            <h1 class="h3 mb-0 text-gray-800">Alterar Ganho</h1>
           </div>
-
+<?php
+  if (array_key_exists("cadastro", $_GET) && $_GET["cadastro"] == "true") {
+?>
+    <p class="alert alert-success">Conta Adicionada com sucesso!</p>
+<?php
+  }
+  else if (array_key_exists("cadastro", $_GET) && $_GET["cadastro"] == "false"){
+?>
+    <p class="alert alert-danger">Ocorreu algum erro no cadastro!</p>  
+<?php
+  }
+?>
+<?php
+  $id = $_POST['id'];
+  $ganho = buscarGanho ($conexao, $id);
+  //$status = strcmp($conta['status'], "pago");
+?>
           <!-- Content Row -->
-          <!--Início da 'Row' das contas --> 
+
           <div class="row">
+
+            <!-- Area Chart -->
             <div class="col-xl-12 col-lg-12">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Contas com vencimento nos últimos 30 dias</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Formulário de Alteração</h6>
                 </div>
-
-                <!-- Início da Tabela de Contas -->
-                <div class="card-body">
-<?php
-  if (array_key_exists("removido", $_GET) && $_GET["removido"] == "true") {
-?>
-    <p class="alert alert-success">Conta removida com sucesso!</p>
-<?php
-  }
-  else if (array_key_exists("removido", $_GET) && $_GET["removido"] == "false"){
-?>
-    <p class="alert alert-danger">Ocorreu algum erro na remoção!</p>  
-<?php
-  }
-?>                 
-                  <table class="table table-striped table-bordered">
-                    <thead class="thead-success">
-                      <tr>
-                        <th scope="col">Conta</th>
-                        <th scope="col">Categoria</th>
-                        <th scope="col">Valor</th>
-                        <th scope="col">Vencimento</th>
-                        <th scope="col">Status</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                      </tr>
-                    </thead>                  
-
-                    <tbody>
-                    <?php
-                      $contas = buscarContasRecentes ($conexao, $_SESSION["usuario_id"]);
-                      foreach ($contas as $conta) {
-                    ?>
-                    <tr>
-                      <td><?= $conta['nomeconta']; ?></td>
-                      <td class="categoria"><?= $conta['categoria']; ?></td>
-                      <td class="valor"><?= $conta['valor']; ?></td>
-                      <td><?= $conta['vencimento']; ?></td>
-                      <td><?= $conta['status']; ?></td>
-                      <td>
-                        <form action="conta-alterar-formulario.php" method="POST">
-                          <input type="hidden" name="id" value="<?=$conta['id']; ?>">
-                          <button class="btn btn-warning text-white">
-                            Editar
-                          </button>
-                        </form>
-                      </td>
-                      <td>
-                        <form action="conta-remover.php" method="POST">
-                          <input type="hidden" name="id" value="<?=$conta['id']; ?>">
-                          <button class="btn btn-danger" onclick="return confirm('Remover é uma ação irreversível! Continuar a ação mesmo assim?');">
-                            Remover
-                          </button>
-                        </form>
-                      </td>
-                    </tr>
-                    <?php
-                      }
-                    ?>
-                  </tbody>
-                  
-                <!-- Fim da Tabela de Contas -->
-                </table>
+                <!-- Formulário de inserção -->
+                <div class="card-body">                  
+                  <form action="ganho-alterar-funcoes.php" class="user" method="post">
+                    <input type="hidden" name="id" value="<?=$ganho['id']?>" />
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="conta" value="<?=$ganho['fonte'];?>" required>
+                    </div>
+                    <div class="form-row">                        
+                      <div class="form-group col-md-4">
+                        <input type="date" class="form-control" name="datarecebimento" value="<?=$ganho['data'];?>" required>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <input type="text" class="form-control" name="valor" value="<?=$ganho['valor'];?>" required>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <select name="tipodeganho" class="form-control" required>
+                          <option>Categoria</option>
+                          <option value="salario" <?php if(!(strcmp($ganho['categoria'], "salario"))) echo "selected='selected'"; ?>>Salário</option>
+                          <option value="bonus" <?php if(!(strcmp($ganho['categoria'], "bonus"))) echo "selected='selected'"; ?>>Bônus</option>
+                          <option value="freelas" <?php if(!(strcmp($ganho['categoria'], "freelas"))) echo "selected='selected'"; ?>>Freelas</option>
+                          <option value="outros" <?php if(!(strcmp($ganho['categoria'], "outros"))) echo "selected='selected'"; ?>>Outros</option>
+                        </select>
+                      </div>
+                    </div>
+                    <button class="btn btn-warning btn-user">Alterar</button>
+                  </form>                  
                 </div>
+                <!-- Formulário de inserção -->
               </div>
             </div>
           </div>
-          <!--Fim da 'Row' das contas --> 
 
-          <!--Início da 'Row' dos Ganhos --> 
-          <div class="row">
-            <div class="col-xl-12 col-lg-12">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Ganhos nos últimos 30 dias</h6>
-                </div>
-
-                <!-- Início da Tabela de Contas -->
-                <div class="card-body">
-<?php
-  if (array_key_exists("gremovido", $_GET) && $_GET["gremovido"] == "true") {
-?>
-    <p class="alert alert-success">Ganho removido com sucesso!</p>
-<?php
-  }
-  else if (array_key_exists("gremovido", $_GET) && $_GET["gremovido"] == "false"){
-?>
-    <p class="alert alert-danger">Ocorreu algum erro na remoção!</p>  
-<?php
-  }
-?>                   
-                  <table class="table table-striped table-bordered">
-                    <thead class="thead-success">
-                      <tr>
-                        <th scope="col">Ganho</th>
-                        <th scope="col">Categoria</th>
-                        <th scope="col">Valor</th>
-                        <th scope="col">Data de Recebimento</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                      </tr>
-                    </thead>                  
-
-                    <tbody>
-                    <?php
-                      $ganhos = buscarGanhosRecentes ($conexao, $_SESSION["usuario_id"]);
-                      foreach ($ganhos as $ganho) {
-                    ?>
-                    <tr>
-                      <td><?= $ganho['fonte']; ?></td>
-                      <td class="categoria2"><?= $ganho['categoria']; ?></td>
-                      <td class="valor2"><?= $ganho['valor']; ?></td>
-                      <td><?= $ganho['data']; ?></td>
-                      <td>
-                        <form action="ganho-alterar-formulario.php" method="POST">
-                          <input type="hidden" name="id" value="<?=$ganho['id']; ?>">
-                          <button class="btn btn-warning text-white">
-                            Editar
-                          </button>
-                        </form>
-                      </td>
-                      <td>
-                        <form action="ganho-remover.php" method="POST">
-                          <input type="hidden" name="id" value="<?=$ganho['id']; ?>">
-                          <button class="btn btn-danger" onclick="return confirm('Remover é uma ação irreversível! Continuar a ação mesmo assim?');">
-                            Remover
-                          </button>
-                        </form>
-                      </td>
-                    </tr>
-                    <?php
-                      }
-                    ?>
-                  </tbody>
-                  
-                <!-- Fim da Tabela de Contas -->
-                </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--Fim da 'Row' dos Ganhos -->
-
-
+        </div>
         <!-- /.container-fluid -->
-        <div class="row">
-            <!-- Area Chart -->
-            <div class="col-xl-6 col-lg-6">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Gráfico Tipo de Consumo</h6>
-                </div>
-                <!-- Formulário de inserção -->
-                <div class="card-body">                  
-                  <div id="graph"></div>                
-                </div>
-                <!-- Formulário de inserção -->
-              </div>
-            </div>
-
-            <!-- Area Chart -->
-            <div class="col-xl-6 col-lg-6">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Gráfico Tipo de Ganho</h6>
-                </div>
-                <!-- Formulário de inserção -->
-                <div class="card-body">                  
-                  <div id="graph2"></div>                
-                </div>
-                <!-- Formulário de inserção -->
-              </div>
-            </div>
-          </div>
 
 
       <!-- End of Main Content -->
@@ -450,63 +324,7 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript">
-    var array1 = document.querySelectorAll(".categoria");
-    var array2 = document.querySelectorAll(".valor");
-      
-    var col1 = [];
-    var col2 = [];
-      
-    for(var i = 0; i <= array2.length-1; i++){
-      col1.push(array1[i].innerHTML);
-      col2.push(parseFloat(array2[i].innerHTML));
-     }
 
-    var data = [{
-      type: "pie",
-      values: col2,
-      labels: col1,
-      textinfo: "label+percent",
-      textposition: "outside",
-      automargin: true
-    }]
-
-    var layout = {
-      margin: {"t": 0, "b": 0, "l": 0, "r": 0},
-      showlegend: false
-    }
-    
-    Plotly.newPlot('graph', data, layout, {responsive: true})
-
-
-    var array3 = document.querySelectorAll(".categoria2");
-    var array4 = document.querySelectorAll(".valor2");
-      
-    var col3 = [];
-    var col4 = [];
-      
-    for(var i = 0; i <= array3.length-1; i++){
-      col3.push(array3[i].innerHTML);
-      col4.push(parseFloat(array4[i].innerHTML));
-     }
-
-    var data = [{
-      type: "pie",
-      values: col4,
-      labels: col3,
-      textinfo: "label+percent",
-      textposition: "outside",
-      automargin: true
-    }]
-
-    var layout = {
-      margin: {"t": 0, "b": 0, "l": 0, "r": 0},
-      showlegend: false
-    }
-    
-    Plotly.newPlot('graph2', data, layout, {responsive: true})
-
-</script>
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

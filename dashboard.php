@@ -301,7 +301,7 @@
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Contas recentes</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Contas Pendentes</h6>
                 </div>
 
                 <!-- Início da Tabela de Contas -->
@@ -333,7 +333,7 @@
 
                     <tbody>
                     <?php
-                      $contas = buscarContas ($conexao, $_SESSION["usuario_id"]);
+                      $contas = buscarContasPendentes ($conexao, $_SESSION["usuario_id"]);
                       foreach ($contas as $conta) {
                     ?>
                     <tr>
@@ -343,7 +343,7 @@
                       <td><?= $conta['vencimento']; ?></td>
                       <td><?= $conta['status']; ?></td>
                       <td>
-                        <form action="#" method="POST">
+                        <form action="conta-alterar-formulario.php" method="POST">
                           <input type="hidden" name="id" value="<?=$conta['id']; ?>">
                           <button class="btn btn-warning text-white">
                             Editar
@@ -418,7 +418,7 @@
                       <td class="valor2"><?= $ganho['valor']; ?></td>
                       <td><?= $ganho['data']; ?></td>
                       <td>
-                        <form action="#" method="POST">
+                        <form action="ganho-alterar-formulario.php" method="POST">
                           <input type="hidden" name="id" value="<?=$ganho['id']; ?>">
                           <button class="btn btn-warning text-white">
                             Editar
@@ -447,106 +447,9 @@
           </div>
           <!--Fim da 'Row' dos Ganhos -->
 
-          <div class="row">
-            <!-- Area Chart -->
-            <div class="col-xl-6 col-lg-6">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Gráfico Tipo de Consumo</h6>
-                </div>
-                <!-- Formulário de inserção -->
-                <div class="card-body">                  
-                  <div id="graph"></div>                
-                </div>
-                <!-- Formulário de inserção -->
-              </div>
-            </div>
-
-            <!-- Area Chart -->
-            <div class="col-xl-6 col-lg-6">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Gráfico Tipo de Ganho</h6>
-                </div>
-                <!-- Formulário de inserção -->
-                <div class="card-body">                  
-                  <div id="graph2"></div>                
-                </div>
-                <!-- Formulário de inserção -->
-              </div>
-            </div>
-          </div>
-
-
+          
       </div>
       <!-- End of Main Content -->
-
-
-
-
-  <script type="text/javascript">
-    var array1 = document.querySelectorAll(".categoria");
-    var array2 = document.querySelectorAll(".valor");
-      
-    var col1 = [];
-    var col2 = [];
-      
-    for(var i = 0; i <= array2.length-1; i++){
-      col1.push(array1[i].innerHTML);
-      col2.push(parseFloat(array2[i].innerHTML));
-     }
-
-    var data = [{
-      type: "pie",
-      values: col2,
-      labels: col1,
-      textinfo: "label+percent",
-      textposition: "outside",
-      automargin: true
-    }]
-
-    var layout = {
-      margin: {"t": 0, "b": 0, "l": 0, "r": 0},
-      showlegend: false
-    }
-    
-    Plotly.newPlot('graph', data, layout, {responsive: true})
-
-
-    var array3 = document.querySelectorAll(".categoria2");
-    var array4 = document.querySelectorAll(".valor2");
-      
-    var col3 = [];
-    var col4 = [];
-      
-    for(var i = 0; i <= array3.length-1; i++){
-      col3.push(array3[i].innerHTML);
-      col4.push(parseFloat(array4[i].innerHTML));
-     }
-
-    var data = [{
-      type: "pie",
-      values: col4,
-      labels: col3,
-      textinfo: "label+percent",
-      textposition: "outside",
-      automargin: true
-    }]
-
-    var layout = {
-      margin: {"t": 0, "b": 0, "l": 0, "r": 0},
-      showlegend: false
-    }
-    
-    Plotly.newPlot('graph2', data, layout, {responsive: true})
-
-</script>
-
-
-
-
 
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
