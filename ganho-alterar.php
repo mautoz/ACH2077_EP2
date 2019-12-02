@@ -235,14 +235,14 @@
                 <!-- Início da Tabela de Contas -->
                 <div class="card-body">
 <?php
-  if (array_key_exists("gremovido", $_GET) && $_GET["gremovido"] == "true") {
+  if (array_key_exists("alterado", $_GET) && $_GET["alterado"] == "true") {
 ?>
-    <p class="alert alert-success">Ganho removido com sucesso!</p>
+    <p class="alert alert-success">Alteração ocorreu com sucesso!</p>
 <?php
   }
-  else if (array_key_exists("gremovido", $_GET) && $_GET["gremovido"] == "false"){
+  else if (array_key_exists("alterado", $_GET) && $_GET["alterado"] == "false"){
 ?>
-    <p class="alert alert-danger">Ocorreu algum erro na remoção!</p>  
+    <p class="alert alert-danger">Ocorreu algum erro na alteração!</p>  
 <?php
   }
 ?>                   

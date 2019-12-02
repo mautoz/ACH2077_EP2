@@ -235,17 +235,17 @@
                 <!-- Início da Tabela de Contas -->
                 <div class="card-body">
 <?php
-  if (array_key_exists("removido", $_GET) && $_GET["removido"] == "true") {
+  if (array_key_exists("alterado", $_GET) && $_GET["alterado"] == "true") {
 ?>
-    <p class="alert alert-success">Conta removida com sucesso!</p>
+    <p class="alert alert-success">Alteração ocorreu com sucesso!</p>
 <?php
   }
-  else if (array_key_exists("removido", $_GET) && $_GET["removido"] == "false"){
+  else if (array_key_exists("alterado", $_GET) && $_GET["alterado"] == "false"){
 ?>
-    <p class="alert alert-danger">Ocorreu algum erro na remoção!</p>  
+    <p class="alert alert-danger">Ocorreu algum erro na alteração!</p>  
 <?php
   }
-?>                 
+?>                  
                   <table class="table table-striped table-bordered">
                     <thead class="thead-success">
                       <tr>

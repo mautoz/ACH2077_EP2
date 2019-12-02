@@ -219,18 +219,7 @@
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Alterar Ganho</h1>
           </div>
-<?php
-  if (array_key_exists("cadastro", $_GET) && $_GET["cadastro"] == "true") {
-?>
-    <p class="alert alert-success">Conta Adicionada com sucesso!</p>
-<?php
-  }
-  else if (array_key_exists("cadastro", $_GET) && $_GET["cadastro"] == "false"){
-?>
-    <p class="alert alert-danger">Ocorreu algum erro no cadastro!</p>  
-<?php
-  }
-?>
+
 <?php
   $id = $_POST['id'];
   $ganho = buscarGanho ($conexao, $id);
